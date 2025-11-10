@@ -1,0 +1,20 @@
+{
+  "name": "dhaka-airways-ticketing-system",
+  "version": "1.0.0",
+  "description": "Internal ticketing system for Bangladeshi travel agency with role-based access control",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx serve .",
+    "build": "echo 'No build step required for static site'"
+  },
+  "keywords": [
+    "travel",
+    "tickets",
+    "umrah",
+    "visa",
+    "bangladesh",
+    "agency"
+  ],
+  "author": "Dhaka Airways",
+  "license": "MIT"
+}

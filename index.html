@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#D4AF37">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    
+    <!-- Trickle Database Configuration -->
+    <meta name="trickle-project" content="dhaka-airways-system">
+
+    <title>Dhaka Airways - Internal Ticketing System</title>
+    <meta name="description" content="Internal ticketing system for Bangladeshi travel agency with role-based access control">
+    <meta name="keywords" content="travel, tickets, umrah, visa, bangladesh, agency">
+    <meta property="og:title" content="Dhaka Airways - Internal Ticketing System">
+    <meta property="og:description" content="Internal ticketing system for Bangladeshi travel agency">
+    <meta name="twitter:title" content="Dhaka Airways - Internal Ticketing System">
+    <meta name="twitter:description" content="Internal ticketing system for Bangladeshi travel agency">
+
+    <script src="https://resource.trickle.so/vendor_lib/unpkg/react@18/umd/react.production.min.js"></script>
+    <script src="https://resource.trickle.so/vendor_lib/unpkg/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://resource.trickle.so/vendor_lib/unpkg/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://resource.trickle.so/vendor_lib/unpkg/lucide-static@0.516.0/font/lucide.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Predefined Tailwind CSS, use it as needed, or update base on your -->
+    <style type="text/tailwindcss">
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+    
+    :root {
+        --background: 0 0% 100%;
+        --foreground: 222.2 84% 4.9%;
+        --card: 0 0% 100%;
+        --card-foreground: 222.2 84% 4.9%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 222.2 84% 4.9%;
+        --primary: 47 96% 53%;
+        --primary-foreground: 355 7% 97%;
+        --secondary: 210 40% 96%;
+        --secondary-foreground: 222.2 84% 4.9%;
+        --muted: 210 40% 96%;
+        --muted-foreground: 215.4 16.3% 46.9%;
+        --accent: 210 40% 96%;
+        --accent-foreground: 222.2 84% 4.9%;
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 210 40% 98%;
+        --border: 214.3 31.8% 91.4%;
+        --input: 214.3 31.8% 91.4%;
+        --ring: 47 96% 53%;
+        --radius: 0.75rem;
+        
+        --luxury-gold: #d4af37;
+        --luxury-bronze: #cd7f32;
+        --luxury-pearl: #f8f6f0;
+        --luxury-cream-50: #fefdf9;
+        --luxury-cream-100: #fef9f0;
+        --luxury-cream-200: #fcf0d9;
+        
+        --sidebar-background: 222.2 84% 4.9%;
+        --sidebar-foreground: 210 40% 98%;
+        --sidebar-primary: 47 96% 53%;
+        --sidebar-primary-foreground: 355 7% 97%;
+        --sidebar-accent: 210 40% 96%;
+        --sidebar-accent-foreground: 222.2 84% 4.9%;
+        --sidebar-border: 214.3 31.8% 91.4%;
+        --sidebar-ring: 47 96% 53%;
+    }
+
+    @layer theme {
+        * {
+            box-sizing: border-box;
+        }
+    }
+
+    @layer base {
+        body {
+            @apply bg-[hsl(var(--background))] text-[hsl(var(--foreground))];
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Oswald', sans-serif;
+            @apply text-[hsl(var(--foreground))] font-semibold;
+        }
+        
+        .font-heading {
+            font-family: 'Oswald', sans-serif;
+        }
+        
+        .font-body {
+            font-family: 'Montserrat', sans-serif;
+        }
+    }
+
+    @layer components {
+        .luxury-card {
+            @apply bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))] rounded-xl shadow-lg border border-[hsl(var(--border))] p-4 md:p-6;
+            background: linear-gradient(145deg, hsl(var(--card)) 0%, hsl(var(--muted)) 100%);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .luxury-card:hover {
+            @apply shadow-xl transform -translate-y-1;
+        }
+        
+        .mobile-card {
+            @apply luxury-card p-3 md:p-6 rounded-lg md:rounded-xl;
+        }
+        
+        .stat-card {
+            @apply luxury-card p-3 md:p-4 text-center hover:scale-105 transition-transform duration-300;
+        }
+        
+        .luxury-btn {
+            @apply px-6 py-3 rounded-[var(--radius)] font-medium transition-all duration-300;
+            background: linear-gradient(135deg, var(--luxury-gold) 0%, var(--luxury-bronze) 100%);
+            @apply text-white shadow-lg hover:shadow-xl transform hover:-translate-y-0.5;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .luxury-btn-secondary {
+            @apply px-6 py-3 rounded-[var(--radius)] font-medium transition-all duration-300;
+            @apply bg-[hsl(var(--secondary))] text-[hsl(var(--secondary-foreground))] border-2 border-[var(--luxury-gold)];
+            @apply hover:bg-[var(--luxury-cream-100)] hover:shadow-lg;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .luxury-input {
+            @apply w-full px-4 py-3 rounded-[var(--radius)] border border-[hsl(var(--border))] bg-[hsl(var(--background))];
+            @apply focus:border-[var(--luxury-gold)] focus:ring-2 focus:ring-[var(--luxury-gold)] focus:ring-opacity-20 transition-all duration-300;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .luxury-nav {
+            @apply bg-[hsl(var(--card))] shadow-lg border-b border-[var(--luxury-gold)];
+            background: linear-gradient(90deg, var(--luxury-pearl) 0%, hsl(var(--card)) 100%);
+        }
+        
+        .sidebar {
+            @apply bg-[hsl(var(--sidebar-background))] text-[hsl(var(--sidebar-foreground))] border-r border-[hsl(var(--sidebar-border))];
+            background: linear-gradient(180deg, hsl(var(--sidebar-background)) 0%, rgb(30, 41, 59) 100%);
+        }
+        
+        .sidebar-item {
+            @apply flex items-center space-x-3 px-4 py-3 mx-2 rounded-lg transition-all duration-300;
+            @apply hover:bg-[hsl(var(--sidebar-accent))] hover:text-[hsl(var(--sidebar-accent-foreground))];
+        }
+        
+        .sidebar-item.active {
+            @apply bg-[var(--luxury-gold)] text-white shadow-lg;
+        }
+        
+        .mobile-nav {
+            @apply md:hidden fixed bottom-0 left-0 right-0 bg-[hsl(var(--sidebar-background))] border-t border-[hsl(var(--sidebar-border))] z-50;
+        }
+        
+        .mobile-nav-item {
+            @apply flex flex-col items-center justify-center py-2 px-1 text-xs transition-colors duration-200;
+            @apply text-[hsl(var(--sidebar-foreground))] hover:text-[var(--luxury-gold)];
+        }
+        
+        .mobile-nav-item.active {
+            @apply text-[var(--luxury-gold)];
+        }
+        
+        .mobile-table {
+            @apply text-xs md:text-sm;
+        }
+        
+        .mobile-table th,
+        .mobile-table td {
+            @apply py-2 md:py-3 px-2 md:px-4;
+        }
+    }
+
+    @layer utilities {
+        @keyframes glow {
+            0% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.3); }
+            100% { box-shadow: 0 0 30px rgba(212, 175, 55, 0.6); }
+        }
+        
+        @keyframes luxury-fade {
+            0% { opacity: 0; transform: translateY(20px) scale(0.95); }
+            100% { opacity: 1; transform: translateY(0px) scale(1); }
+        }
+        
+        @keyframes velvet-slide {
+            0% { transform: translateX(-100%); opacity: 0; }
+            100% { transform: translateX(0%); opacity: 1; }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes pulse-gold {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200px 0; }
+            100% { background-position: calc(200px + 100%) 0; }
+        }
+        
+        @keyframes bounce-in {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .animate-glow {
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        .animate-luxury-fade {
+            animation: luxury-fade 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .animate-velvet-slide {
+            animation: velvet-slide 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .animate-pulse-gold {
+            animation: pulse-gold 2s infinite;
+        }
+        
+        .animate-shimmer {
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+            background-size: 200px 100%;
+            animation: shimmer 2s infinite;
+        }
+        
+        .animate-bounce-in {
+            animation: bounce-in 0.6s ease-out;
+        }
+        
+        @media (max-width: 768px) {
+            .luxury-card {
+                @apply p-3 rounded-lg;
+            }
+            
+            .luxury-btn {
+                @apply px-3 py-2 text-sm;
+            }
+            
+            .luxury-btn-secondary {
+                @apply px-3 py-2 text-sm;
+            }
+            
+            .main-content {
+                @apply pb-16; /* Space for mobile nav */
+            }
+            
+            .responsive-grid {
+                @apply grid-cols-1 sm:grid-cols-2;
+            }
+            
+            .responsive-text {
+                @apply text-sm md:text-base;
+            }
+            
+            .responsive-header {
+                @apply text-lg md:text-2xl;
+            }
+        }
+    }
+    </style>
+
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel" src="components/LoginForm.js"></script>
+    <script type="text/babel" src="components/Navigation.js"></script>
+    <script type="text/babel" src="components/Dashboard.js"></script>
+    <script type="text/babel" src="components/TicketManagement.js"></script>
+    <script type="text/babel" src="components/UmrahPackages.js"></script>
+    <script type="text/babel" src="components/UmrahTicketManagement.js"></script>
+    <script type="text/babel" src="components/CustomerManagement.js"></script>
+    <script type="text/babel" src="components/VisaManagement.js"></script>
+    <script type="text/babel" src="components/Reports.js"></script>
+    <script type="text/babel" src="utils/auth.js"></script>
+    <script type="text/babel" src="utils/ticketService.js"></script>
+    <script type="text/babel" src="app.js"></script>
+</body>
+</html>
